@@ -1,23 +1,26 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+
 function App() {
-  const [contador, setContador]=useState(0)
-  const incrementar =()=>{
-    setContador(contador+1)
-  }
+  //este estado contendra la data
+  const [data, setData]=useState(null);
+    //cada vez q se renderice
+  useEffect(()=>{
+    fetch( "   https://jsonplaceholder.typicode.com/users   ").
+      then((response)=>response.json()).
+      then((data)=>setData(data));
+  },[]  );
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={viteLogo} className="App-Logo" alt="logo"/>
-        <p>
-          {contador}
-        </p>
-        <button onClick ={incrementar}>Incrementar</button>
-      </header>
+      <h1>Fetch like a pro</h1>
+      <div className="card"></div>
+       <ul>
+         {data?.map(( user)=>(<li key={user.id}>{user.name}</li>))}
+       </ul>
     </div>
   );
 }
